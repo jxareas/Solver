@@ -1,16 +1,25 @@
 package com.jxareas.solver.ui;
 
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Jon Areas, @jxareas
  */
 public class MainFrame extends javax.swing.JFrame {
 
+    int ages[] = new int[15];
+    int arrayIndex = 0;
+
+    DefaultListModel<Integer> integerListModel = new DefaultListModel<>();
+
     /**
      * Creates new form MainFrame
      */
     public MainFrame() {
         initComponents();
+        listAges.setModel(integerListModel);
     }
 
     /**
@@ -49,6 +58,11 @@ public class MainFrame extends javax.swing.JFrame {
 
         buttonAddAge.setBackground(new java.awt.Color(255, 255, 254));
         buttonAddAge.setText("Agregar");
+        buttonAddAge.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAddAgeActionPerformed(evt);
+            }
+        });
 
         labelStoredAges.setText("Edades Guardadas");
 
@@ -112,14 +126,11 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(buttonAddAge)
                     .addComponent(labelHighestAge)
                     .addComponent(textfieldHighestAge, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(panelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelStoredAges)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panelTopLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(panelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelStoredAges)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(panelTopLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
                         .addGroup(panelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(textfieldLowestAge, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(labelLowestAge))
@@ -127,7 +138,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGroup(panelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(textfieldAverageAge, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(labelAverageAge))))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
 
         getContentPane().add(panelTop);
@@ -140,7 +151,7 @@ public class MainFrame extends javax.swing.JFrame {
         );
         panelBottomLayout.setVerticalGroup(
             panelBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 272, Short.MAX_VALUE)
+            .addGap(0, 303, Short.MAX_VALUE)
         );
 
         getContentPane().add(panelBottom);
@@ -148,6 +159,30 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void buttonAddAgeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddAgeActionPerformed
+        int age = Integer.parseInt(textFieldAge.getText());
+
+        try {
+            ages[arrayIndex] = age;
+            integerListModel.add(arrayIndex, age);
+            arrayIndex++;
+            updateTextFields();
+        } catch (ArrayIndexOutOfBoundsException exception) {
+            JOptionPane.showMessageDialog(panelTop,
+                    "Solo se pueden almacenar 15 edades",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+
+    }//GEN-LAST:event_buttonAddAgeActionPerformed
+
+    private void updateTextFields() {
+        setHighestAgeTextfield();
+        setLowestAgeTextfield();
+        setAverageAgeTextfield();
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -192,7 +227,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel labelLowestAge;
     private javax.swing.JLabel labelStoredAges;
     private javax.swing.JLabel labelTopDescription;
-    private javax.swing.JList<String> listAges;
+    private javax.swing.JList<Integer> listAges;
     private javax.swing.JPanel panelBottom;
     private javax.swing.JPanel panelTop;
     private javax.swing.JTextField textFieldAge;
@@ -200,4 +235,50 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JTextField textfieldHighestAge;
     private javax.swing.JTextField textfieldLowestAge;
     // End of variables declaration//GEN-END:variables
+
+    private void setHighestAgeTextfield() {
+        // Highest Age Procedural Algorithm : For loop
+        int highestAge = ages[0];
+        for(int index = 0; index < ages.length; index++) {
+            int currentAge = ages[index];
+            if(currentAge > highestAge)
+                highestAge = currentAge;
+        }
+        
+        textfieldHighestAge.setText(String.valueOf(highestAge));
+        
+    }
+
+    private void setLowestAgeTextfield() {
+      // Lowest Age Procedural Algorithm: While loop
+      int index = 0;
+      int lowestAge = ages[0];
+      
+      while(index < arrayIndex) {
+          int currentAge = ages[index];
+          if(lowestAge > currentAge) {
+              lowestAge = currentAge;
+          }
+          index++;    
+      }
+      
+      textfieldLowestAge.setText(String.valueOf(lowestAge));
+              
+    }
+
+    private void setAverageAgeTextfield() {
+      // Average Age Procedural Algorithm: Do while loop
+      int index = 0;
+      double totalSum = 0;
+      
+      do {
+          totalSum += ages[index];
+          index++;
+      } while(index < arrayIndex);
+       double average = totalSum / arrayIndex;
+       textfieldAverageAge.setText(String.valueOf(average));
+      
+    }
+
+   
 }
