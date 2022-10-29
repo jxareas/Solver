@@ -1,7 +1,12 @@
 package com.jxareas.solver.ui;
 
+import com.jxareas.solver.model.Employee;
+import com.jxareas.solver.repository.EmployeeRepository;
+import com.jxareas.solver.repository.EmployeeRepositoryImpl;
+import java.text.DecimalFormat;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -12,6 +17,9 @@ public class MainFrame extends javax.swing.JFrame {
     int ages[] = new int[15];
     int arrayIndex = 0;
 
+    EmployeeRepository employeeRepository = new EmployeeRepositoryImpl();
+
+    DefaultTableModel employeesTableModel;
     DefaultListModel<Integer> integerListModel = new DefaultListModel<>();
 
     /**
@@ -20,6 +28,7 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         initComponents();
         listAges.setModel(integerListModel);
+        employeesTableModel = (DefaultTableModel) tableEmployees.getModel();
     }
 
     /**
@@ -46,6 +55,17 @@ public class MainFrame extends javax.swing.JFrame {
         labelAverageAge = new javax.swing.JLabel();
         textfieldAverageAge = new javax.swing.JTextField();
         panelBottom = new javax.swing.JPanel();
+        labelTopDescription1 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        textfieldName = new javax.swing.JTextField();
+        textfieldWage = new javax.swing.JTextField();
+        comboboxPosition = new javax.swing.JComboBox<>();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tableEmployees = new javax.swing.JTable();
+        buttonAddEmployee = new javax.swing.JButton();
+        buttonIncreaseWage = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.PAGE_AXIS));
@@ -138,20 +158,101 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGroup(panelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(textfieldAverageAge, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(labelAverageAge))))
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         getContentPane().add(panelTop);
+
+        labelTopDescription1.setText("Uso de ArrayList");
+
+        jLabel1.setText("Nombres");
+
+        jLabel2.setText("Cargo");
+
+        jLabel3.setText("Salario");
+
+        comboboxPosition.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Gerente", "Asistente", "Secretario" }));
+
+        tableEmployees.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nombres", "Cargos", "Salarios"
+            }
+        ));
+        jScrollPane2.setViewportView(tableEmployees);
+
+        buttonAddEmployee.setBackground(new java.awt.Color(255, 255, 254));
+        buttonAddEmployee.setText("Agregar");
+        buttonAddEmployee.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAddEmployeeActionPerformed(evt);
+            }
+        });
+
+        buttonIncreaseWage.setBackground(new java.awt.Color(255, 255, 254));
+        buttonIncreaseWage.setText("Aumentar Salario");
+        buttonIncreaseWage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonIncreaseWageActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelBottomLayout = new javax.swing.GroupLayout(panelBottom);
         panelBottom.setLayout(panelBottomLayout);
         panelBottomLayout.setHorizontalGroup(
             panelBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 806, Short.MAX_VALUE)
+            .addGroup(panelBottomLayout.createSequentialGroup()
+                .addGroup(panelBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelBottomLayout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addComponent(labelTopDescription1))
+                    .addGroup(panelBottomLayout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addGroup(panelBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2))
+                        .addGap(29, 29, 29)
+                        .addGroup(panelBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(textfieldWage, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                            .addComponent(textfieldName)
+                            .addComponent(comboboxPosition, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(panelBottomLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(buttonAddEmployee)
+                        .addGap(18, 18, 18)
+                        .addComponent(buttonIncreaseWage)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(89, 89, 89))
         );
         panelBottomLayout.setVerticalGroup(
             panelBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 303, Short.MAX_VALUE)
+            .addGroup(panelBottomLayout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addGroup(panelBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelBottomLayout.createSequentialGroup()
+                        .addComponent(labelTopDescription1)
+                        .addGap(23, 23, 23)
+                        .addGroup(panelBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(textfieldName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(panelBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(comboboxPosition, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(panelBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(textfieldWage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(panelBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(buttonAddEmployee)
+                            .addComponent(buttonIncreaseWage))))
+                .addContainerGap(199, Short.MAX_VALUE))
         );
 
         getContentPane().add(panelBottom);
@@ -177,12 +278,31 @@ public class MainFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_buttonAddAgeActionPerformed
 
+    private void buttonAddEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddEmployeeActionPerformed
+        String fullName = textfieldName.getText();
+        String jobPosition = comboboxPosition.getSelectedItem().toString();
+        double wage = Double.parseDouble(textfieldWage.getText());
+
+        Employee employee = new Employee(fullName, jobPosition, wage);
+        employeeRepository.insert(employee);
+        employeesTableModel.addRow(new Object[]{
+            fullName, jobPosition, wage
+        });
+
+    }//GEN-LAST:event_buttonAddEmployeeActionPerformed
+
+
+    private void buttonIncreaseWageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonIncreaseWageActionPerformed
+        employeeRepository.increaseSalary();
+        updateEmployeesTable();
+    }//GEN-LAST:event_buttonIncreaseWageActionPerformed
+
     private void updateTextFields() {
         setHighestAgeTextfield();
         setLowestAgeTextfield();
         setAverageAgeTextfield();
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -220,65 +340,88 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonAddAge;
+    private javax.swing.JButton buttonAddEmployee;
+    private javax.swing.JButton buttonIncreaseWage;
+    private javax.swing.JComboBox<String> comboboxPosition;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel labelAge;
     private javax.swing.JLabel labelAverageAge;
     private javax.swing.JLabel labelHighestAge;
     private javax.swing.JLabel labelLowestAge;
     private javax.swing.JLabel labelStoredAges;
     private javax.swing.JLabel labelTopDescription;
+    private javax.swing.JLabel labelTopDescription1;
     private javax.swing.JList<Integer> listAges;
     private javax.swing.JPanel panelBottom;
     private javax.swing.JPanel panelTop;
+    private javax.swing.JTable tableEmployees;
     private javax.swing.JTextField textFieldAge;
     private javax.swing.JTextField textfieldAverageAge;
     private javax.swing.JTextField textfieldHighestAge;
     private javax.swing.JTextField textfieldLowestAge;
+    private javax.swing.JTextField textfieldName;
+    private javax.swing.JTextField textfieldWage;
     // End of variables declaration//GEN-END:variables
 
     private void setHighestAgeTextfield() {
         // Highest Age Procedural Algorithm : For loop
         int highestAge = ages[0];
-        for(int index = 0; index < ages.length; index++) {
+        for (int index = 0; index < ages.length; index++) {
             int currentAge = ages[index];
-            if(currentAge > highestAge)
+            if (currentAge > highestAge) {
                 highestAge = currentAge;
+            }
         }
-        
+
         textfieldHighestAge.setText(String.valueOf(highestAge));
-        
+
     }
 
     private void setLowestAgeTextfield() {
-      // Lowest Age Procedural Algorithm: While loop
-      int index = 0;
-      int lowestAge = ages[0];
-      
-      while(index < arrayIndex) {
-          int currentAge = ages[index];
-          if(lowestAge > currentAge) {
-              lowestAge = currentAge;
-          }
-          index++;    
-      }
-      
-      textfieldLowestAge.setText(String.valueOf(lowestAge));
-              
+        // Lowest Age Procedural Algorithm: While loop
+        int index = 0;
+        int lowestAge = ages[0];
+
+        while (index < arrayIndex) {
+            int currentAge = ages[index];
+            if (lowestAge > currentAge) {
+                lowestAge = currentAge;
+            }
+            index++;
+        }
+
+        textfieldLowestAge.setText(String.valueOf(lowestAge));
+
     }
 
     private void setAverageAgeTextfield() {
-      // Average Age Procedural Algorithm: Do while loop
-      int index = 0;
-      double totalSum = 0;
-      
-      do {
-          totalSum += ages[index];
-          index++;
-      } while(index < arrayIndex);
-       double average = totalSum / arrayIndex;
-       textfieldAverageAge.setText(String.valueOf(average));
-      
+        // Average Age Procedural Algorithm: Do while loop
+        int index = 0;
+        double totalSum = 0;
+
+        do {
+            totalSum += ages[index];
+            index++;
+        } while (index < arrayIndex);
+        double average = totalSum / arrayIndex;
+        textfieldAverageAge.setText(String.valueOf(average));
+
     }
 
-   
+    private void updateEmployeesTable() {
+        employeesTableModel.setRowCount(0); // Clearing all data from the table
+        // Repopulating the table 
+        employeeRepository.getAll()
+                .stream()
+                .forEach(employee
+                        -> employeesTableModel.addRow(new Object[]{
+            employee.getFullName(), employee.getJobPosition(), employee.getSalary()
+        })
+                );
+    }
+
 }
